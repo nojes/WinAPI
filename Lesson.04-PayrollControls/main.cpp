@@ -22,13 +22,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int 
 BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	// Static Variables 
-	static const int EDIT_BUFF_SIZE = 16;
-	static TCHAR tEdit[EDIT_BUFF_SIZE] = { 0 };
-	static TCHAR tRes[EDIT_BUFF_SIZE] = { 0 };
-	static double num = 0.0;
-	static double res = 0.0;
-	static int str_index = 0;
-	static int str_count = 0;
+	const int EDIT_BUFF_SIZE = 16;
+	TCHAR tEdit[EDIT_BUFF_SIZE] = { 0 };
+	TCHAR tRes[EDIT_BUFF_SIZE] = { 0 };
+	double num = 0.0;
+	double sum = 0.0;
+	double res = 0.0;
+	int str_index = 0;
+	int str_count = 0;
 
 	switch (message)
 	{
@@ -56,6 +57,7 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			else {
 				SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)tEdit);
 			}
+			SetWindowText(hEditAdd, L"");
 			break;
 
 		// BUTTON del
@@ -71,12 +73,28 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 		// BUTTON calc
 		case IDC_BTN_CALC:
+			str_count = SendMessage(hList, LB_GETCOUNT, 0, 0);
+			if (str_count == 0) {
+				MessageBox(hDlg, TEXT("List is empty!"), TEXT("Error"), MB_OK | MB_ICONERROR);
+			}
+			else
+			{
+				for (size_t i = 0; i < str_count; i++)
+				{
+					SendMessage(hList, LB_GETTEXT, i, (LPARAM)tRes);
+					sum += _wtof(tRes);
+				}
+				res = sum / str_count;
+				swprintf_s(tRes, L"%.3f", res);
+				SetWindowText(hEditResult, tRes);
+			}
 			
 			break;
 
 		// BUTTON clear
 		case IDC_BTN_CLEAR:
 			SendMessage(hList, LB_RESETCONTENT, 0, 0);
+			SetWindowText(hEditResult, L"");
 			break;
 		}
 		break;
