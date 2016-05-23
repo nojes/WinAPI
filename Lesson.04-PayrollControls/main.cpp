@@ -20,6 +20,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int 
 
 BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	// Static Variables 
+	static const int EDIT_BUFF_SIZE = 16;
+	static TCHAR tEdit[EDIT_BUFF_SIZE] = { 0 };
+	static TCHAR tRes[EDIT_BUFF_SIZE] = { 0 };
+	static double num = 0.0;
+	static double res = 0.0;
+
+
 	switch (message)
 	{
 	case WM_INITDIALOG:
@@ -30,6 +38,8 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		hBtnDel = GetDlgItem(hDlg, IDC_BTN_DEL);
 		hBtnClear = GetDlgItem(hDlg, IDC_BTN_CLEAR);
 		hBtnCalc = GetDlgItem(hDlg, IDC_BTN_CALC);
+
+		hList = GetDlgItem(hDlg, IDC_LIST);
 		break;
 
 	case WM_COMMAND:
@@ -37,7 +47,15 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 		// BUTTON add
 		case IDC_BTN_ADD: 
-
+			GetWindowText(hEditAdd, tEdit, EDIT_BUFF_SIZE);
+			if (lstrlen(tEdit) == 0)
+			{
+				MessageBox(hDlg, TEXT("You have not entered data"), TEXT("Error"),MB_OK | MB_ICONEXCLAMATION);
+			}
+			else
+			{
+				SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)tEdit);
+			}
 			break;
 
 		// BUTTON del
