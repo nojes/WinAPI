@@ -26,7 +26,7 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	static TCHAR tRes[EDIT_BUFF_SIZE] = { 0 };
 	static double num = 0.0;
 	static double res = 0.0;
-
+	static int str_index = 0;
 
 	switch (message)
 	{
@@ -48,19 +48,23 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		// BUTTON add
 		case IDC_BTN_ADD: 
 			GetWindowText(hEditAdd, tEdit, EDIT_BUFF_SIZE);
-			if (lstrlen(tEdit) == 0)
-			{
+			if (lstrlen(tEdit) == 0) {
 				MessageBox(hDlg, TEXT("You have not entered data"), TEXT("Error"),MB_OK | MB_ICONEXCLAMATION);
 			}
-			else
-			{
+			else {
 				SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)tEdit);
 			}
 			break;
 
 		// BUTTON del
 		case IDC_BTN_DEL:
-
+			str_index = SendMessage(hList, LB_GETCURSEL, 0, 0);
+			if (str_index < 0) {
+				MessageBox(hDlg, TEXT("Select the line!"), TEXT("Error"), MB_OK | MB_ICONERROR);
+			}
+			else {
+				SendMessage(hList, LB_DELETESTRING, str_index, 0);
+			}
 			break;
 
 		// BUTTON calc
