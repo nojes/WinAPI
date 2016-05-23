@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <cstdio>
+
 #include "resource.h"
 
 // Global Variables
@@ -27,6 +28,7 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	static double num = 0.0;
 	static double res = 0.0;
 	static int str_index = 0;
+	static int str_count = 0;
 
 	switch (message)
 	{
@@ -69,12 +71,12 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 		// BUTTON calc
 		case IDC_BTN_CALC:
-
+			
 			break;
 
 		// BUTTON clear
 		case IDC_BTN_CLEAR:
-
+			SendMessage(hList, LB_RESETCONTENT, 0, 0);
 			break;
 		}
 		break;
