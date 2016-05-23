@@ -33,7 +33,28 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_COMMAND:
+		switch (wParam)
+		{
+		// BUTTON add
+		case IDC_BTN_ADD: 
 
+			break;
+
+		// BUTTON del
+		case IDC_BTN_DEL:
+
+			break;
+
+		// BUTTON calc
+		case IDC_BTN_CALC:
+
+			break;
+
+		// BUTTON clear
+		case IDC_BTN_CLEAR:
+
+			break;
+		}
 		break;
 
 	case WM_CLOSE:
