@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <cstdio>
+#include <vector>
 
 #include "resource.h"
 
@@ -24,6 +25,15 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int 
 
 BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	const int CAT_SIZE = 5;
+	TCHAR *categories[CAT_SIZE] = {
+		L"спортивные товары",
+		L"товары для дома",
+		L"автотовары",
+		L"телефоны",
+		L"компьютеры, ноутбуки"
+	};
+
 	switch (message)
 	{
 	case WM_INITDIALOG:
@@ -42,6 +52,11 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		hSum = GetDlgItem(hDlg, IDC_SUM);
 		// Check's
 		hCheckSaveReport = GetDlgItem(hDlg, IDC_CHECK_SAVE_RERT);
+
+		for (size_t i = 0; i < CAT_SIZE; i++) {
+			SendMessage(hComboCategory, CB_ADDSTRING, 0, LPARAM(categories[i]));
+		}
+		SendMessage(hComboCategory, CB_SETCURSEL, 0, 0);
 		break;
 
 	case WM_COMMAND:
