@@ -87,23 +87,40 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		SendMessage(hComboCategory, CB_SETCURSEL, 0, 0);
 		break;
 
-	case WM_COMMAND:
+	case WM_COMMAND: {
+		// Get category selection
+		int cat = SendMessage(hComboCategory, CB_GETCURSEL, 0, 0);
+
 		switch (wParam)
 		{
-		// BUTTON add item
-		case IDC_BTN_ADD_ITEM:
-			//int index = SendMessage(hListGoods, LB_GETCURSEL, 0, 0);
+			// BUTTON add item
+		case IDC_BTN_ADD_ITEM: {
+			int index = SendMessage(hListGoods, LB_GETCURSEL, 0, 0);
+			switch (cat)
+			{
+			case SPORT:
+				SendMessage(hListBasket, LB_ADDSTRING, 0, LPARAM(sport_goods[index]));
+				break;
+			case PHONE:
+				SendMessage(hListBasket, LB_ADDSTRING, 0, LPARAM(phone_goods[index]));
+				break;
+			case COMPUTERS:
+				SendMessage(hListBasket, LB_ADDSTRING, 0, LPARAM(computers_goods[index]));
+				break;
+			}
+
 			break;
-		// BUTTON edit item
+		}
+			// BUTTON edit item
 		case IDC_BTN_EDIT_ITEM:
 			break;
-		// BUTTON delete item from basket
+			// BUTTON delete item from basket
 		case IDC_BTN_DEL_BASKET_ITEM:
 			break;
-		// BUTTON clear all items from basket
+			// BUTTON clear all items from basket
 		case IDC_BTN_CLEAR_BASKET:
 			break;
-		// BUTTON make order (buy)
+			// BUTTON make order (buy)
 		case IDC_BTN_SUBMIT:
 			break;
 		}
@@ -111,27 +128,28 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			// Clear goods list
 			SendMessage(hListGoods, LB_RESETCONTENT, 0, 0);
 
-			// Get category selection
-			int cat = SendMessage(hComboCategory, CB_GETCURSEL, 0, 0);
-
 			// Send goods to List
 			switch (cat)
 			{
 			case SPORT:
 				for (size_t i = 0; i < SPORT_GOODS_SIZE; i++) {
-					SendMessage(hListGoods, LB_ADDSTRING, 0, LPARAM(sport_goods[i])); }
+					SendMessage(hListGoods, LB_ADDSTRING, 0, LPARAM(sport_goods[i]));
+				}
 				break;
 			case PHONE:
 				for (size_t i = 0; i < PHONE_GOODS_SIZE; i++) {
-					SendMessage(hListGoods, LB_ADDSTRING, 0, LPARAM(phone_goods[i])); }
+					SendMessage(hListGoods, LB_ADDSTRING, 0, LPARAM(phone_goods[i]));
+				}
 				break;
 			case COMPUTERS:
 				for (size_t i = 0; i < COMPUTER_GOODS_SIZE; i++) {
-					SendMessage(hListGoods, LB_ADDSTRING, 0, LPARAM(computers_goods[i])); }
+					SendMessage(hListGoods, LB_ADDSTRING, 0, LPARAM(computers_goods[i]));
+				}
 				break;
 			}
 		}
 		break;
+	}
 
 	case WM_CLOSE:
 		EndDialog(hDlg, 0);
