@@ -26,32 +26,32 @@ enum GoodsCategory {
 };
 const int CAT_SIZE = 3;
 TCHAR *categories[CAT_SIZE] = {
-	L"спортивные товары",
-	L"телефоны",
-	L"компьютеры, ноутбуки"
+	L"sports goods",
+	L"phones",
+	L"computers & notebooks"
 };
 
 // GOODS - sport
 const int SPORT_GOODS_SIZE = 4;
 TCHAR *sport_goods[SPORT_GOODS_SIZE] = {
-	L"Велосипед > 3850 UAN",
-	L"Часы > 2086 UAN",
-	L"Рюкзак > 1103 UAN",
-	L"Лыжи > 3800 UAN"
+	L"Sport Bike >> 3850 UAN",
+	L"Sport Clocks >> 2086 UAN",
+	L"Sport Backpack >> 1103 UAN",
+	L"Soccer Ball >> 150 UAN"
 };
 // GOODS - computers
 const int COMPUTER_GOODS_SIZE = 3;
 TCHAR *computers_goods[COMPUTER_GOODS_SIZE] = {
-	L"comp i7 > 15854 UAN",
-	L"comp i5 > 10199 UAN",
-	L"comp i3 > 7000 UAN",
+	L"ARTLINE Gaming X97 / i7-6700K / RAM 32GB DDR4 / GTX 980 Ti 6GB >> 57999 UAN",
+	L"Everest Game 9050 / i5-4570 / RAM 8GB / GTX960 2GB >> 20599 UAN",
+	L"ARTLINE Gaming X45 v01 / Athlon II X4 860K / RAM 8GB / GeForce GT 740 2GB >> 11299 UAN",
 };
 // GOODS - phones
 const int PHONE_GOODS_SIZE = 3;
 TCHAR *phone_goods[PHONE_GOODS_SIZE] = {
-	L"smartphone 1 > 7154 UAN",
-	L"smartphone 2 > 5451 UAN",
-	L"smartphone 3 > 10548 UAN",
+	L"Samsung Galaxy J3 >> 4399 UAN",
+	L"Lenovo A7000 >> 3499 UAN",
+	L"Apple iPhone 6 >> 13999 UAN",
 };
 
 BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
