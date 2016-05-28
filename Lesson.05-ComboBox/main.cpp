@@ -20,9 +20,9 @@ HWND hCheckSaveReport;
 
 // Goods categories
 enum GoodsCategory {
-	COMPUTERS,
 	SPORT,
-	PHONE
+	PHONE,
+	COMPUTERS
 };
 const int CAT_SIZE = 3;
 TCHAR *categories[CAT_SIZE] = {
@@ -62,6 +62,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int 
 
 BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	TCHAR tBuff[512] = { 0 };
+	
 	switch (message)
 	{
 	case WM_INITDIALOG:
@@ -96,27 +98,27 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 		case IDC_BTN_ADD_ITEM: // BUTTON add item
 		{
-			int index = SendMessage(hListGoods, LB_GETCURSEL, 0, 0);
-			switch (cat)
-			{
-			case SPORT:
-				SendMessage(hListBasket, LB_ADDSTRING, 0, LPARAM(sport_goods[index]));
-				break;
-			case PHONE:
-				SendMessage(hListBasket, LB_ADDSTRING, 0, LPARAM(phone_goods[index]));
-				break;
-			case COMPUTERS:
-				SendMessage(hListBasket, LB_ADDSTRING, 0, LPARAM(computers_goods[index]));
-				break;
+			// get count of items
+			int items_count = SendMessage(hListGoods, LB_GETCOUNT, 0, 0);
+			if (!items_count) {
+				MessageBox(hDlg, L"List is empty!", L"Error", MB_OK | MB_ICONERROR);
 			}
-
+			else 
+			{
+				// get current selection
+				int index = SendMessage(hListGoods, LB_GETCURSEL, 0, 0);
+				// get item text
+				SendMessage(hListGoods, LB_GETTEXT, index, LPARAM(tBuff));
+				// send item to Basket list
+				SendMessage(hListBasket, LB_ADDSTRING, 0, LPARAM(tBuff));
+			}
 			break;
 		}
 		case IDC_BTN_EDIT_ITEM: // BUTTON edit item
 			break;
 		case IDC_BTN_DEL_BASKET_ITEM: // BUTTON delete item from basket
 			break;
-		case IDC_BTN_CLEAR_BASKET: // BUTTON clear all items from basket
+		case IDC_BTN_CLEAR_BASKET: // BUTTON delete all items from basket
 			break;
 		case IDC_BTN_SUBMIT: // BUTTON make order (buy)
 			break;
