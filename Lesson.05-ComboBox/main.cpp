@@ -87,14 +87,15 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		SendMessage(hComboCategory, CB_SETCURSEL, 0, 0);
 		break;
 
-	case WM_COMMAND: {
+	case WM_COMMAND: 
+	{
 		// Get category selection
 		int cat = SendMessage(hComboCategory, CB_GETCURSEL, 0, 0);
 
 		switch (wParam)
 		{
-			// BUTTON add item
-		case IDC_BTN_ADD_ITEM: {
+		case IDC_BTN_ADD_ITEM: // BUTTON add item
+		{
 			int index = SendMessage(hListGoods, LB_GETCURSEL, 0, 0);
 			switch (cat)
 			{
@@ -111,20 +112,17 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 			break;
 		}
-			// BUTTON edit item
-		case IDC_BTN_EDIT_ITEM:
+		case IDC_BTN_EDIT_ITEM: // BUTTON edit item
 			break;
-			// BUTTON delete item from basket
-		case IDC_BTN_DEL_BASKET_ITEM:
+		case IDC_BTN_DEL_BASKET_ITEM: // BUTTON delete item from basket
 			break;
-			// BUTTON clear all items from basket
-		case IDC_BTN_CLEAR_BASKET:
+		case IDC_BTN_CLEAR_BASKET: // BUTTON clear all items from basket
 			break;
-			// BUTTON make order (buy)
-		case IDC_BTN_SUBMIT:
+		case IDC_BTN_SUBMIT: // BUTTON make order (buy)
 			break;
 		}
-		if (LOWORD(wParam) == IDC_COMBO_CATEGORY && HIWORD(wParam) == CBN_SELCHANGE) {
+		if (LOWORD(wParam) == IDC_COMBO_CATEGORY && HIWORD(wParam) == CBN_SELCHANGE) 
+		{
 			// Clear goods list
 			SendMessage(hListGoods, LB_RESETCONTENT, 0, 0);
 
