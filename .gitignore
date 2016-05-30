@@ -11,6 +11,10 @@
 *.vcxproj
 *.vcxproj.filters
 *.jpg
+*.jpeg
+*.png
+*.bmp
+*.gif
 *.zip
 
 # User-specific directories
