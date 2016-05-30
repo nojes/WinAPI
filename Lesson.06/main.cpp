@@ -34,7 +34,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int 
 
 BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	int img_index = 0;
+	static int img_index = 0;
 	TCHAR tBuff[512] = { 0 };
 
 	switch (message)
@@ -68,12 +68,12 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			MessageBox(hDlg, L"This is in develop.", L"INFO", MB_OK | MB_ICONINFORMATION);
 			break;
 		case IDC_BTN_START: // BUTTON start slideshow
-			MessageBox(hDlg, L"This is in develop.", L"INFO", MB_OK | MB_ICONINFORMATION);
+			SetTimer(hDlg, 1, 3000, NULL);
 			break;
 		case IDC_BTN_STOP: // BUTTON stop slideshow
-			MessageBox(hDlg, L"This is in develop.", L"INFO", MB_OK | MB_ICONINFORMATION);
+			KillTimer(hDlg, 1);
 			break;
-		case IDC_LIST: // LIST all images
+		case IDC_LIST: // images LIST
 			if (HIWORD(wParam) == LBN_SELCHANGE)
 			{
 				// get image index
@@ -83,7 +83,18 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 		}
-	
+		break;
+
+	case WM_TIMER:
+		// next image
+		if (img_index > BMP_COUNT) {
+			img_index = 0;
+		}
+		else {
+			++img_index;
+		}
+		// show image
+		SendMessage(hStaticBmp, STM_SETIMAGE, WPARAM(IMAGE_BITMAP), LPARAM(hBmp[img_index]));
 		break;
 
 	case WM_CLOSE:
