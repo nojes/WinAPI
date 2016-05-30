@@ -17,6 +17,15 @@ HWND hStaticBmp;
 // button's
 HWND hBtnPrev, hBtnNext, hBtnStart, hBtnEnd;
 
+// images titles
+TCHAR *img_titles[BMP_COUNT] {
+	L"Kiev - Botanichesky sad",
+	L"Kiev - Night",
+	L"Kiev - Dnepr, Bridge",
+	L"Kiev - Dnepr",
+	L"Kiev - Sunset"
+};
+
 BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int nCmdShow)
 {
@@ -38,6 +47,11 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		// get bitmap's
 		for (size_t i = 0; i < BMP_COUNT; i++) {
 			hBmp[i] = LoadBitmap(GetModuleHandle(0), MAKEINTRESOURCE(IDR_JPG1+i));
+		}
+
+		// send images titles to list
+		for (size_t i = 0; i < BMP_COUNT; i++) {
+			SendMessage(hList, LB_ADDSTRING, 0, LPARAM(img_titles[i]));
 		}
 		break;
 
