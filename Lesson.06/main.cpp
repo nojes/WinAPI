@@ -62,10 +62,22 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam))
 		{
 		case IDC_BTN_NEXT: // BUTTON next image
-			MessageBox(hDlg, L"This is in develop.", L"INFO", MB_OK | MB_ICONINFORMATION);
+			if (img_index < BMP_COUNT) {
+				++img_index;
+				SendMessage(hStaticBmp, STM_SETIMAGE, WPARAM(IMAGE_BITMAP), LPARAM(hBmp[img_index]));
+			}
+			else {
+				img_index = 0;
+			}
 			break;
 		case IDC_BTN_PREV: // BUTTON prev image
-			MessageBox(hDlg, L"This is in develop.", L"INFO", MB_OK | MB_ICONINFORMATION);
+			if (img_index == 0) {
+				img_index = BMP_COUNT - 1;
+			}
+			else {
+				--img_index;
+				SendMessage(hStaticBmp, STM_SETIMAGE, WPARAM(IMAGE_BITMAP), LPARAM(hBmp[img_index]));
+			}
 			break;
 		case IDC_BTN_START: // BUTTON start slideshow
 			SetTimer(hDlg, 1, 3000, NULL);
