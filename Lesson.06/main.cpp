@@ -15,7 +15,7 @@ HWND hList;
 // static's
 HWND hStaticBmp;
 // button's
-HWND hBtnPrev, hBtnNext, hBtnStart, hBtnEnd;
+HWND hBtnPrev, hBtnNext, hBtnStart, hBtnStop;
 
 // images titles
 TCHAR *img_titles[BMP_COUNT] {
@@ -42,7 +42,7 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		hBtnPrev = GetDlgItem(hDlg, IDC_BTN_PREV);
 		hBtnNext = GetDlgItem(hDlg, IDC_BTN_NEXT);
 		hBtnStart = GetDlgItem(hDlg, IDC_BTN_START);
-		hBtnEnd = GetDlgItem(hDlg, IDC_BTN_END);
+		hBtnStop = GetDlgItem(hDlg, IDC_BTN_STOP);
 
 		// get bitmap's
 		for (size_t i = 0; i < BMP_COUNT; i++) {
@@ -56,7 +56,28 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_COMMAND:
-
+		switch (LOWORD(wParam))
+		{
+		case IDC_BTN_NEXT: // BUTTON next image
+			MessageBox(hDlg, L"This is in develop.", L"INFO", MB_OK | MB_ICONINFORMATION);
+			break;
+		case IDC_BTN_PREV: // BUTTON prev image
+			MessageBox(hDlg, L"This is in develop.", L"INFO", MB_OK | MB_ICONINFORMATION);
+			break;
+		case IDC_BTN_START: // BUTTON start slideshow
+			MessageBox(hDlg, L"This is in develop.", L"INFO", MB_OK | MB_ICONINFORMATION);
+			break;
+		case IDC_BTN_STOP: // BUTTON stop slideshow
+			MessageBox(hDlg, L"This is in develop.", L"INFO", MB_OK | MB_ICONINFORMATION);
+			break;
+		case IDC_LIST: // LIST all images
+			if (HIWORD(wParam) == LBN_SELCHANGE)
+			{
+				MessageBox(hDlg, L"It's work", L"INFO", MB_OK | MB_ICONINFORMATION);
+			}
+			break;
+		}
+	
 		break;
 
 	case WM_CLOSE:
