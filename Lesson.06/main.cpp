@@ -34,6 +34,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int 
 
 BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	int img_index = 0;
+	TCHAR tBuff[512] = { 0 };
+
 	switch (message)
 	{
 	case WM_INITDIALOG:
@@ -46,7 +49,7 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 		// get bitmap's
 		for (size_t i = 0; i < BMP_COUNT; i++) {
-			hBmp[i] = LoadBitmap(GetModuleHandle(0), MAKEINTRESOURCE(IDR_JPG1+i));
+			hBmp[i] = LoadBitmap(GetModuleHandle(0), MAKEINTRESOURCE(IDB_BITMAP1+i));
 		}
 
 		// send images titles to list
@@ -73,7 +76,10 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		case IDC_LIST: // LIST all images
 			if (HIWORD(wParam) == LBN_SELCHANGE)
 			{
-				MessageBox(hDlg, L"It's work", L"INFO", MB_OK | MB_ICONINFORMATION);
+				// get image index
+				img_index = SendMessage(hList, LB_GETCURSEL, 0, 0);
+				// show image
+				SendMessage(hStaticBmp, STM_SETIMAGE, WPARAM(IMAGE_BITMAP), LPARAM(hBmp[img_index]));
 			}
 			break;
 		}
