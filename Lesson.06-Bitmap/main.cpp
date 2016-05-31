@@ -22,8 +22,8 @@ TCHAR *img_titles[BMP_COUNT] {
 	L"Kiev - Botanichesky sad",
 	L"Kiev - Night",
 	L"Kiev - Dnepr, Bridge",
-	L"Kiev - Dnepr",
-	L"Kiev - Sunset"
+	L"Kiev - Sunset",
+	L"Kiev - Motherland"
 };
 
 BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
@@ -62,22 +62,16 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam))
 		{
 		case IDC_BTN_NEXT: // BUTTON next image
-			if (img_index < BMP_COUNT) {
+			if (img_index < BMP_COUNT - 1) {
 				++img_index;
-				SendMessage(hStaticBmp, STM_SETIMAGE, WPARAM(IMAGE_BITMAP), LPARAM(hBmp[img_index]));
 			}
-			else {
-				img_index = 0;
-			}
+			SendMessage(hStaticBmp, STM_SETIMAGE, WPARAM(IMAGE_BITMAP), LPARAM(hBmp[img_index]));
 			break;
 		case IDC_BTN_PREV: // BUTTON prev image
-			if (img_index == 0) {
-				img_index = BMP_COUNT - 1;
-			}
-			else {
+			if (img_index != 0) {
 				--img_index;
-				SendMessage(hStaticBmp, STM_SETIMAGE, WPARAM(IMAGE_BITMAP), LPARAM(hBmp[img_index]));
 			}
+			SendMessage(hStaticBmp, STM_SETIMAGE, WPARAM(IMAGE_BITMAP), LPARAM(hBmp[img_index]));
 			break;
 		case IDC_BTN_START: // BUTTON start slideshow
 			SetTimer(hDlg, 1, 3000, NULL);
@@ -99,7 +93,7 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 	case WM_TIMER:
 		// next image
-		if (img_index > BMP_COUNT) {
+		if (img_index == BMP_COUNT - 1) {
 			img_index = 0;
 		}
 		else {
