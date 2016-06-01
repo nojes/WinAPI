@@ -1,10 +1,13 @@
 #include <Windows.h>
 #include <cstdio>
+#include <CommCtrl.h>
 
 #include "resource.h"
 
+#pragma comment(lib, "comctl32")
+
 /**
-*	""
+*	"Dynamic Controls example"
 */
 
 
