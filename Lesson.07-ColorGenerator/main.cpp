@@ -78,7 +78,20 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case WM_HSCROLL:
-		
+		// get position
+		R = SendMessage(hSliderR, TBM_GETPOS, 0, 0);
+		G = SendMessage(hSliderG, TBM_GETPOS, 0, 0);
+		B = SendMessage(hSliderB, TBM_GETPOS, 0, 0);
+		// format static text's
+		swprintf_s(tR, L"R: %d", R);
+		swprintf_s(tG, L"G: %d", G);
+		swprintf_s(tB, L"B: %d", B);
+		// set static text's
+		SetWindowText(hStaticR, tR);
+		SetWindowText(hStaticG, tG);
+		SetWindowText(hStaticB, tB);
+		// set color
+		SendMessage(hProgressColor, PBM_SETBKCOLOR, 0, LPARAM(RGB(R, G, B)));
 		break;
 	}
 	return FALSE;
