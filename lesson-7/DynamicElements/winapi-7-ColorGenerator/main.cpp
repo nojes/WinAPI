@@ -16,6 +16,8 @@ HWND hStaticR, hStaticG, hStaticB;
 HWND hProgressColor;
 // Slider's
 HWND hSliderR, hSliderG, hSliderB;
+// Edit's
+HWND hEditRGB;
 
 
 
@@ -31,9 +33,10 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	const int RANGE_MAX = 255;
 	const int DEF_POS = 127;
 
-	TCHAR tR[8] = { 0 };
-	TCHAR tG[8] = { 0 };
-	TCHAR tB[8] = { 0 };
+	TCHAR tR[16] = { 0 };
+	TCHAR tG[16] = { 0 };
+	TCHAR tB[16] = { 0 };
+	TCHAR tRGB[32] = { 0 };
 
 	static int R = 0;
 	static int G = 0;
@@ -49,6 +52,7 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		hSliderR = GetDlgItem(hDlg, IDC_SLIDER_R);
 		hSliderG = GetDlgItem(hDlg, IDC_SLIDER_G);
 		hSliderB = GetDlgItem(hDlg, IDC_SLIDER_B);
+		hEditRGB = GetDlgItem(hDlg, IDC_EDIT_RGB);
 		hProgressColor = GetDlgItem(hDlg, IDC_PROGRESS_COLOR);
 
 		// set range
@@ -83,13 +87,15 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		G = SendMessage(hSliderG, TBM_GETPOS, 0, 0);
 		B = SendMessage(hSliderB, TBM_GETPOS, 0, 0);
 		// format static text's
-		swprintf_s(tR, L"R: %d", R);
-		swprintf_s(tG, L"G: %d", G);
-		swprintf_s(tB, L"B: %d", B);
+		swprintf_s(tR, L"Red: %d", R);
+		swprintf_s(tG, L"Green: %d", G);
+		swprintf_s(tB, L"Blue: %d", B);
+		swprintf_s(tRGB, L"(%d, %d, %d)", R, G, B);
 		// set static text's
 		SetWindowText(hStaticR, tR);
 		SetWindowText(hStaticG, tG);
 		SetWindowText(hStaticB, tB);
+		SetWindowText(hEditRGB, tRGB);
 		// set color
 		SendMessage(hProgressColor, PBM_SETBKCOLOR, 0, LPARAM(RGB(R, G, B)));
 		break;
