@@ -30,12 +30,12 @@ BOOL Controller::Cls_OnInitDialog(HWND hWnd, HWND hWndFocus, LPARAM lParam)
 	);
 
 	int parts[4] = {
-		0, 120, 200, -1
+		0, 100, 200, -1
 	};
 	SendMessage(hStatus, SB_SETPARTS, 4, LPARAM(parts));
-	SendMessage(hStatus, SB_SETTEXT, 1, LPARAM(L"Counter: 0"));
-	SendMessage(hStatus, SB_SETTEXT, 2, LPARAM(L"Param1: OFF"));
-	SendMessage(hStatus, SB_SETTEXT, 3, LPARAM(L"Param2: OFF"));
+	SendMessage(hStatus, SB_SETTEXT, 1, LPARAM(L"Count: 0"));
+	SendMessage(hStatus, SB_SETTEXT, 2, LPARAM(L"Check1: OFF"));
+	SendMessage(hStatus, SB_SETTEXT, 3, LPARAM(L"Check2: OFF"));
 
 	hIcon = LoadIcon(GetModuleHandle(0), MAKEINTRESOURCE(IDI_ICON1));
 	SendMessage(hStatus, SB_SETICON, 1, LPARAM(hIcon));
@@ -54,10 +54,10 @@ void Controller::Cls_OnCommand(HWND hWnd, int id, HWND hCtl, UINT codeNotify)
 		res = SendMessage(hCheck1, BM_GETCHECK, 0, 0);
 		if (res == BST_CHECKED)
 		{
-			SendMessage(hStatus, SB_SETTEXT, 2, LPARAM(L"Param1: ON"));
+			SendMessage(hStatus, SB_SETTEXT, 2, LPARAM(L"Check1: ON"));
 		}
 		else {
-			SendMessage(hStatus, SB_SETTEXT, 2, LPARAM(L"Param1: OFF"));
+			SendMessage(hStatus, SB_SETTEXT, 2, LPARAM(L"Check1: OFF"));
 		}
 		break;
 
@@ -65,13 +65,20 @@ void Controller::Cls_OnCommand(HWND hWnd, int id, HWND hCtl, UINT codeNotify)
 		res = SendMessage(hCheck2, BM_GETCHECK, 0, 0);
 		if (res == BST_CHECKED)
 		{
-			SendMessage(hStatus, SB_SETTEXT, 3, LPARAM(L"Param2: ON"));
+			SendMessage(hStatus, SB_SETTEXT, 3, LPARAM(L"Check2: ON"));
 		}
 		else {
-			SendMessage(hStatus, SB_SETTEXT, 3, LPARAM(L"Param2: OFF"));
+			SendMessage(hStatus, SB_SETTEXT, 3, LPARAM(L"Check2: OFF"));
 		}
 		break;
 	}
+}
+
+void Controller::Cls_OnVScroll(HWND hWnd, HWND hCtrl, UINT code, int pos)
+{
+	TCHAR tBuff[100];
+	swprintf_s(tBuff, L"Count: %d", pos);
+	SendMessage(hStatus, SB_SETTEXT, 1, LPARAM(tBuff));
 }
 
 BOOL CALLBACK Controller::DlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -81,6 +88,7 @@ BOOL CALLBACK Controller::DlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 		HANDLE_MSG(hWnd, WM_CLOSE, ptr->Cls_OnClose);
 		HANDLE_MSG(hWnd, WM_INITDIALOG, ptr->Cls_OnInitDialog);
 		HANDLE_MSG(hWnd, WM_COMMAND, ptr->Cls_OnCommand);
+		HANDLE_MSG(hWnd, WM_VSCROLL, ptr->Cls_OnVScroll);
 	}
 	return FALSE;
 }
