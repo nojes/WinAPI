@@ -4,10 +4,13 @@
 //
 #define IDD_DIALOG1                     101
 #define IDI_ICON1                       102
+#define IDR_MENU1                       104
 #define IDC_CHECK1                      1001
 #define IDC_CHECK2                      1002
 #define IDC_EDIT1                       1003
 #define IDC_SPIN1                       1004
+#define ID_FILE_CLOSE                   40001
+#define ID_PROGRAM_ABOUT                40002
 
 // Next default values for new objects
 // 

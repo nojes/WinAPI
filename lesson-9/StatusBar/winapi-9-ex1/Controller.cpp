@@ -18,6 +18,7 @@ BOOL Controller::Cls_OnInitDialog(HWND hWnd, HWND hWndFocus, LPARAM lParam)
 	this->hCheck2 = GetDlgItem(hWnd, IDC_CHECK2);
 	this->hEdit1 = GetDlgItem(hWnd, IDC_EDIT1);
 	this->hSpin1 = GetDlgItem(hWnd, IDC_SPIN1);
+	this->hMenu = GetDlgItem(hWnd, IDR_MENU1);
 
 	SendMessage(hSpin1, UDM_SETRANGE32, -50, 50);
 	SendMessage(hSpin1, UDM_SETBUDDY, WPARAM(hEdit1), 0);
@@ -70,6 +71,14 @@ void Controller::Cls_OnCommand(HWND hWnd, int id, HWND hCtl, UINT codeNotify)
 		else {
 			SendMessage(hStatus, SB_SETTEXT, 3, LPARAM(L"Check2: OFF"));
 		}
+		break;
+
+	case ID_FILE_CLOSE:
+		MessageBox(hWnd, L"This is a paid feature :]", L"File", MB_OK | MB_ICONINFORMATION);
+		break;
+
+	case ID_PROGRAM_ABOUT:
+		MessageBox(hWnd, L"Test application.", L"Program", MB_OK | MB_ICONINFORMATION);
 		break;
 	}
 }

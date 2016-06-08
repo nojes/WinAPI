@@ -63,6 +63,7 @@ LANGUAGE LANG_UKRAINIAN, SUBLANG_DEFAULT
 IDD_DIALOG1 DIALOGEX 0, 0, 201, 79
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "WinAPI Status Bar"
+MENU IDR_MENU1
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Check1",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,28,40,10
@@ -99,6 +100,24 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_ICON1               ICON                    "clock.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "Close",                       ID_FILE_CLOSE
+    END
+    POPUP "Program"
+    BEGIN
+        MENUITEM "About",                       ID_PROGRAM_ABOUT
+    END
+END
+
 #endif    // Ukrainian (Ukraine) resources
 /////////////////////////////////////////////////////////////////////////////
 
