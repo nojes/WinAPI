@@ -5,7 +5,9 @@
 
 class Controller
 {
-
+	HWND hCheck1, hCheck2;
+	HWND hEdit1, hSpin1;
+	HWND hStatus;
 public:
 	Controller();
 	static Controller *ptr;
