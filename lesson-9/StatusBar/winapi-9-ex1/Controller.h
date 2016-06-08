@@ -8,6 +8,7 @@ class Controller
 	HWND hCheck1, hCheck2;
 	HWND hEdit1, hSpin1;
 	HWND hStatus;
+	HICON hIcon;
 public:
 	Controller();
 	static Controller *ptr;

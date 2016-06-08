@@ -30,19 +30,24 @@ BOOL Controller::Cls_OnInitDialog(HWND hWnd, HWND hWndFocus, LPARAM lParam)
 	);
 
 	int parts[4] = {
-		0, 70, 150, -1
+		0, 120, 200, -1
 	};
 	SendMessage(hStatus, SB_SETPARTS, 4, LPARAM(parts));
 	SendMessage(hStatus, SB_SETTEXT, 1, LPARAM(L"Counter: 0"));
-	SendMessage(hStatus, SB_SETTEXT, 2, LPARAM(L"Param1: Off"));
-	SendMessage(hStatus, SB_SETTEXT, 3, LPARAM(L"Param2: Off"));
+	SendMessage(hStatus, SB_SETTEXT, 2, LPARAM(L"Param1: OFF"));
+	SendMessage(hStatus, SB_SETTEXT, 3, LPARAM(L"Param2: OFF"));
+
+	hIcon = LoadIcon(GetModuleHandle(0), MAKEINTRESOURCE(IDI_ICON1));
+	SendMessage(hStatus, SB_SETICON, 1, LPARAM(hIcon));
+
+	SendMessage(hStatus, SB_SETBKCOLOR, 0, LPARAM(RGB(200, 221, 242)));
 
 	return TRUE;
 }
 
 void Controller::Cls_OnCommand(HWND hWnd, int id, HWND hCtl, UINT codeNotify)
 {
-
+	
 }
 
 BOOL CALLBACK Controller::DlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
