@@ -47,7 +47,31 @@ BOOL Controller::Cls_OnInitDialog(HWND hWnd, HWND hWndFocus, LPARAM lParam)
 
 void Controller::Cls_OnCommand(HWND hWnd, int id, HWND hCtl, UINT codeNotify)
 {
-	
+	LRESULT res;
+	switch (id)
+	{
+	case IDC_CHECK1:
+		res = SendMessage(hCheck1, BM_GETCHECK, 0, 0);
+		if (res == BST_CHECKED)
+		{
+			SendMessage(hStatus, SB_SETTEXT, 2, LPARAM(L"Param1: ON"));
+		}
+		else {
+			SendMessage(hStatus, SB_SETTEXT, 2, LPARAM(L"Param1: OFF"));
+		}
+		break;
+
+	case IDC_CHECK2:
+		res = SendMessage(hCheck2, BM_GETCHECK, 0, 0);
+		if (res == BST_CHECKED)
+		{
+			SendMessage(hStatus, SB_SETTEXT, 3, LPARAM(L"Param2: ON"));
+		}
+		else {
+			SendMessage(hStatus, SB_SETTEXT, 3, LPARAM(L"Param2: OFF"));
+		}
+		break;
+	}
 }
 
 BOOL CALLBACK Controller::DlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
