@@ -1,4 +1,5 @@
 #include "MainDialog.h"
+#include "AdditionalDialog.h"
 
 MainDialog::MainDialog() : Controller()
 {}
@@ -17,12 +18,18 @@ void MainDialog::Cls_OnCommand(HWND hDlg, int ctl_ID, HWND ctl_Handle, UINT code
 {
 	switch (ctl_ID)
 	{
-	case IDC_BUTTON1:
-		MessageBox(hDlg, L"BUTTON1", L"DEBUG", MB_OK);
-		break;
+	case IDC_BUTTON1: 
+	{
+		MessageBox(hDlg, L"BUTTON1", L"MainDialog", MB_OK);
 
-	case IDC_EDIT1:
-		MessageBox(hDlg, L"EDIT1", L"DEBUG", MB_OK);
+		TCHAR buff[100];
+		GetWindowText(hEdit1, buff, 100);
+
+		AdditionalDialog ad(buff);
+		DialogBox(GetModuleHandle(0), MAKEINTRESOURCE(IDD_DIALOG2), hDlg, AdditionalDialog::DlgProc);
+
+		//EndDialog(hDlg, 0);
 		break;
+	}
 	}
 }
