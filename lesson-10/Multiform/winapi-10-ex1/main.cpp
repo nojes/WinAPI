@@ -1,4 +1,4 @@
-#include "Controller.h"
+#include "MainDialog.h"
 
 /**
  *	WinAPI
@@ -8,6 +8,6 @@
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int nCmdShow)
 {
-	Controller c;
+	MainDialog md;
 	return DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG1), nullptr, Controller::DlgProc);
 }
