@@ -12,6 +12,7 @@
 #define IDC_BTN_DEL				4002
 #define IDC_BTN_EDIT			4003
 
+const int TBUFF_LEN = 1024;
 const int TCHAR_LEN = 256;
 const int STUDENTS = 3;
 
@@ -29,7 +30,7 @@ HWND hEditName, hEditBirth, hEditPhone, hEditEmail, hEditAddress;
 HWND hBtnOk, hBtnCancel;
 
 
-TCHAR tBuff[1024];
+
 int stud_index;
 
 struct Student
@@ -139,6 +140,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	TCHAR tBuff[TBUFF_LEN] = { 0 };
 	int wmId, wmEvent;
 	PAINTSTRUCT ps;
 	HDC hdc;
@@ -146,57 +148,61 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_CREATE:
+	{
 		MoveWindow(hWnd, 750, 350, 500, 400, TRUE);
 		SetWindowText(hWnd, L"Students");
 
-		hList = CreateWindowEx(0, L"LISTBOX", 
+		hList = CreateWindowEx(0, L"LISTBOX",
 			L"", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LBS_NOTIFY,
 			10, 10, 200, 250,
 			hWnd, HMENU(IDC_LIST), hInst, 0
-			);
+		);
 
 		hEdit = CreateWindowEx(0, L"EDIT",
 			L"", WS_CHILD | WS_VISIBLE | ES_MULTILINE | ES_READONLY | WS_BORDER,
 			230, 10, 200, 242,
 			hWnd, (HMENU)IDC_EDIT, hInst, 0
-			);
+		);
 
 		hBtnAdd = CreateWindowEx(0, L"BUTTON",
 			L"+", WS_CHILD | WS_VISIBLE,
 			20, 300, 100, 30,
 			hWnd, (HMENU)IDC_BTN_ADD, hInst, 0
-			);
+		);
 
 		hBtnDel = CreateWindowEx(0, L"BUTTON",
 			L"-", WS_CHILD | WS_VISIBLE,
 			130, 300, 100, 30,
 			hWnd, (HMENU)IDC_BTN_DEL, hInst, 0
-			);
+		);
 
 		hBtnEdit = CreateWindowEx(0, L"BUTTON",
 			L"Edit", WS_CHILD | WS_VISIBLE,
 			340, 300, 100, 30,
 			hWnd, (HMENU)IDC_BTN_EDIT, hInst, 0
-			);
+		);
 
 		for (size_t i = 0; i < v.size(); i++)
 		{
 			SendMessage(hList, LB_ADDSTRING, 0, LPARAM(v[i].name));
 		}
 		SendMessage(hList, LB_SETCURSEL, 0, 0);
-
 		break;
+	}
 
 	case WM_COMMAND:
-		wmId    = LOWORD(wParam);
+	{
+		wmId = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
 		// Parse the menu selections:
 		switch (wmId)
 		{
-		case IDC_LIST: {
+		case IDC_LIST:
+		{
 			stud_index = SendMessage(hList, LB_GETCURSEL, 0, 0);
-			
+
 			Student s = v[stud_index];
+			lstrcpy(tBuff, L"");
 			lstrcpy(tBuff, L"\r\t Personal data");
 			lstrcat(tBuff, L"\r\n Address: \r\n ");
 			lstrcat(tBuff, s.address);
@@ -212,8 +218,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 
 		case IDC_BTN_ADD:
+		{
 			DialogBox(GetModuleHandle(0), MAKEINTRESOURCE(IDD_DIALOG_EDIT), hWnd, DlgProc);
+
+			SendMessage(hList, LB_RESETCONTENT, 0, 0);
+			for (size_t i = 0; i < v.size(); i++)
+			{
+				SendMessage(hList, LB_ADDSTRING, 0, LPARAM(v[i].name));
+			}
+			SendMessage(hList, LB_SETCURSEL, 0, 0);
 			break;
+		}
 
 		case IDM_ABOUT:
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
@@ -223,8 +238,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
+			break;
 		}
-		break;
+	}
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		// TODO: Add any drawing code here...
@@ -236,9 +252,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
+	
 	}
 	return 0;
+	
 }
+
 
 // Message handler for about box.
 INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -262,6 +281,8 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 INT_PTR CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	TCHAR tBuff[TBUFF_LEN] = { 0 };
+
 	int wmId = LOWORD(wParam);
 	int wmEvent = HIWORD(wParam);
 	UNREFERENCED_PARAMETER(lParam);
@@ -278,12 +299,35 @@ INT_PTR CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch (wmId)
 		{
-		case IDC_BTN_OK:
+		case IDC_BTN_OK: 
+		{
+			Student s;
+			GetWindowText(hEditAddress, tBuff, TBUFF_LEN);
+			lstrcpy(s.address, tBuff);
+			GetWindowText(hEditBirth, tBuff, TBUFF_LEN);
+			lstrcpy(s.birth, tBuff);
+			GetWindowText(hEditEmail, tBuff, TBUFF_LEN);
+			lstrcpy(s.email, tBuff);
+			GetWindowText(hEditName, tBuff, TBUFF_LEN);
+			lstrcpy(s.name, tBuff);
+			GetWindowText(hEditPhone, tBuff, TBUFF_LEN);
+			lstrcpy(s.phone, tBuff);
+			v.push_back(s);
+
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
 			break;
+		}
 		case IDC_BTN_CANCEL:
 			EndDialog(hDlg, LOWORD(wParam));
 			return (INT_PTR)TRUE;
 			break;
+		}
+
+		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+		{
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
 		}
 		break;
 	}
