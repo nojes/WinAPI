@@ -23,13 +23,16 @@ HWND hEdit;
 HWND hList;
 HWND hBtnAdd, hBtnDel, hBtnEdit;
 
+TCHAR tBuff[1024];
+int stud_index;
+
 struct Student
 {
 	TCHAR name[TCHAR_LEN];
 	TCHAR birth[TCHAR_LEN];
 	TCHAR phone[TCHAR_LEN];
 	TCHAR email[TCHAR_LEN];
-	TCHAR adress[TCHAR_LEN];
+	TCHAR address[TCHAR_LEN];
 };
 
 Student students[STUDENTS] {
@@ -183,6 +186,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// Parse the menu selections:
 		switch (wmId)
 		{
+		case IDC_LIST: {
+			stud_index = SendMessage(hList, LB_GETCURSEL, 0, 0);
+			
+			Student s = v[stud_index];
+			lstrcpy(tBuff, L"\r\t Personal data");
+			lstrcat(tBuff, L"\r\n Address: \r\n ");
+			lstrcat(tBuff, s.address);
+			lstrcat(tBuff, L"\r\n Birth: \r\n ");
+			lstrcat(tBuff, s.birth);
+			lstrcat(tBuff, L"\r\n Email: \r\n ");
+			lstrcat(tBuff, s.email);
+			lstrcat(tBuff, L"\r\n Phone: \r\n ");
+			lstrcat(tBuff, s.phone);
+
+			SetWindowText(hEdit, tBuff);
+			break;
+		}
+
 		case IDM_ABOUT:
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 			break;
@@ -201,6 +222,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
+
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
