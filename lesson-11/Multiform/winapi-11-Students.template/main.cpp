@@ -19,9 +19,15 @@ const int STUDENTS = 3;
 HINSTANCE hInst;								// current instance
 TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
+
+/**	MAIN DIALOG */
 HWND hEdit;
 HWND hList;
 HWND hBtnAdd, hBtnDel, hBtnEdit;
+/**	EDIT DIALOG */
+HWND hEditName, hEditBirth, hEditPhone, hEditEmail, hEditAddress;
+HWND hBtnOk, hBtnCancel;
+
 
 TCHAR tBuff[1024];
 int stud_index;
@@ -48,6 +54,7 @@ ATOM				MyRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK	DlgProc(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -204,6 +211,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 
+		case IDC_BTN_ADD:
+			DialogBox(GetModuleHandle(0), MAKEINTRESOURCE(IDD_DIALOG_EDIT), hWnd, DlgProc);
+			break;
+
 		case IDM_ABOUT:
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 			break;
@@ -243,6 +254,36 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			EndDialog(hDlg, LOWORD(wParam));
 			return (INT_PTR)TRUE;
+		}
+		break;
+	}
+	return (INT_PTR)FALSE;
+}
+
+INT_PTR CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	int wmId = LOWORD(wParam);
+	int wmEvent = HIWORD(wParam);
+	UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		hEditName = GetDlgItem(hDlg, IDC_EDIT_NAME);
+		hEditBirth = GetDlgItem(hDlg, IDC_EDIT_BIRTH);
+		hEditPhone = GetDlgItem(hDlg, IDC_EDIT_PHONE);
+		hEditEmail = GetDlgItem(hDlg, IDC_EDIT_EMAIL);
+		hEditAddress = GetDlgItem(hDlg, IDC_EDIT_ADDRESS);
+		return (INT_PTR)TRUE;
+
+	case WM_COMMAND:
+		switch (wmId)
+		{
+		case IDC_BTN_OK:
+			break;
+		case IDC_BTN_CANCEL:
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+			break;
 		}
 		break;
 	}
