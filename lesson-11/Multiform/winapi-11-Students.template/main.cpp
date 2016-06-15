@@ -13,6 +13,7 @@
 #define IDC_BTN_EDIT			4003
 
 const int TCHAR_LEN = 256;
+const int STUDENTS = 3;
 
 // Global Variables:
 HINSTANCE hInst;								// current instance
@@ -22,6 +23,21 @@ HWND hEdit;
 HWND hList;
 HWND hBtnAdd, hBtnDel, hBtnEdit;
 
+struct Student
+{
+	TCHAR name[TCHAR_LEN];
+	TCHAR birth[TCHAR_LEN];
+	TCHAR phone[TCHAR_LEN];
+	TCHAR email[TCHAR_LEN];
+	TCHAR adress[TCHAR_LEN];
+};
+
+Student students[STUDENTS] {
+		{ L"Vasya Pupkin", L"01.01.1970", L"111-11-11", L"vasya.pupkin@gmail.com", L"Saksaganskohgo, 10" },
+		{ L"Kolya Pupkin", L"12.14.1975", L"222-22-22", L"kolya.pupkin@gmail.com", L"Saksaganskohgo, 15" },
+		{ L"Sveta Pupkina", L"27.04.1980", L"333-33-33", L"sveta.pupkina@gmail.com", L"Saksaganskohgo, 10" }
+};
+std::vector<Student> v(students, students + 3);
 
 
 // Forward declarations of functions included in this code module:
@@ -152,6 +168,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			340, 300, 100, 30,
 			hWnd, (HMENU)IDC_BTN_ADD, hInst, 0
 			);
+
+		for (size_t i = 0; i < v.size(); i++)
+		{
+			SendMessage(hList, LB_ADDSTRING, 0, LPARAM(v[i].name));
+		}
+		SendMessage(hList, LB_SETCURSEL, 0, 0);
 
 		break;
 
