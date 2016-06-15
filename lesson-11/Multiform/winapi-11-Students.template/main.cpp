@@ -163,13 +163,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		hBtnDel = CreateWindowEx(0, L"BUTTON",
 			L"-", WS_CHILD | WS_VISIBLE,
 			130, 300, 100, 30,
-			hWnd, (HMENU)IDC_BTN_ADD, hInst, 0
+			hWnd, (HMENU)IDC_BTN_DEL, hInst, 0
 			);
 
 		hBtnEdit = CreateWindowEx(0, L"BUTTON",
 			L"Edit", WS_CHILD | WS_VISIBLE,
 			340, 300, 100, 30,
-			hWnd, (HMENU)IDC_BTN_ADD, hInst, 0
+			hWnd, (HMENU)IDC_BTN_EDIT, hInst, 0
 			);
 
 		for (size_t i = 0; i < v.size(); i++)
