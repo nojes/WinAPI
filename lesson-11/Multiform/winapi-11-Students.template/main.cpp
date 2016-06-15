@@ -6,10 +6,23 @@
 
 #define MAX_LOADSTRING 100
 
+#define IDC_LIST				2001
+#define IDC_EDIT				3001
+#define IDC_BTN_ADD				4001
+#define IDC_BTN_DEL				4002
+#define IDC_BTN_EDIT			4003
+
+const int TCHAR_LEN = 256;
+
 // Global Variables:
 HINSTANCE hInst;								// current instance
 TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
+HWND hEdit;
+HWND hList;
+HWND hBtnAdd, hBtnDel, hBtnEdit;
+
+
 
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
@@ -106,6 +119,42 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	switch (message)
 	{
+	case WM_CREATE:
+		MoveWindow(hWnd, 750, 350, 500, 400, TRUE);
+		SetWindowText(hWnd, L"Students");
+
+		hList = CreateWindowEx(0, L"LISTBOX", 
+			L"", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LBS_NOTIFY,
+			10, 10, 200, 250,
+			hWnd, HMENU(IDC_LIST), hInst, 0
+			);
+
+		hEdit = CreateWindowEx(0, L"EDIT",
+			L"", WS_CHILD | WS_VISIBLE | ES_MULTILINE | ES_READONLY | WS_BORDER,
+			230, 10, 200, 242,
+			hWnd, (HMENU)IDC_EDIT, hInst, 0
+			);
+
+		hBtnAdd = CreateWindowEx(0, L"BUTTON",
+			L"+", WS_CHILD | WS_VISIBLE,
+			20, 300, 100, 30,
+			hWnd, (HMENU)IDC_BTN_ADD, hInst, 0
+			);
+
+		hBtnDel = CreateWindowEx(0, L"BUTTON",
+			L"-", WS_CHILD | WS_VISIBLE,
+			130, 300, 100, 30,
+			hWnd, (HMENU)IDC_BTN_ADD, hInst, 0
+			);
+
+		hBtnEdit = CreateWindowEx(0, L"BUTTON",
+			L"Edit", WS_CHILD | WS_VISIBLE,
+			340, 300, 100, 30,
+			hWnd, (HMENU)IDC_BTN_ADD, hInst, 0
+			);
+
+		break;
+
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
