@@ -5,7 +5,10 @@
 
 class Controller
 {
-
+	// Edit controls
+	HWND hEditFName, hEditLName, hEditMName, hEditGroup;
+	// Button controls
+	HWND hBtnStart;
 public:
 	Controller();
 	~Controller();
